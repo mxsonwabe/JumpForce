@@ -3,20 +3,22 @@ using UnityEngine;
 public class RepeatBackground : MonoBehaviour
 {
   private Vector3 startPos;
-  private Vector3 midPoint;
+  private float midPoint;
+  BoxCollider boxCollider;
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
-    midPoint = transform.position;
-    startPos = transform.position - midPoint;
+    boxCollider = GetComponent<BoxCollider>();
+    midPoint = boxCollider.size.x / 2;
+    startPos = transform.position;
   }
 
   // Update is called once per frame
   void Update()
   {
-    if (transform.position.x < startPos.x)
+    if (transform.position.x < (startPos.x - midPoint))
     {
-      transform.position = midPoint;
+      transform.position = startPos;
     }
   }
 }

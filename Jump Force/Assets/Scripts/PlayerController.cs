@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
   private InputAction jumpAction;
   [SerializeField] private float inputForce;
   [SerializeField] private float gravityMod;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+  // Start is called once before the first execution of Update after the MonoBehaviour is created
+  void Start()
   {
     playerRb = GetComponent<Rigidbody>();
     jumpAction = InputSystem.actions.FindAction("Jump");
@@ -35,6 +35,15 @@ public class PlayerController : MonoBehaviour
 
   private void OnCollisionEnter(Collision collision)
   {
+    if (collision.gameObject.CompareTag("Ground"))
+    {
+      Debug.Log("OnCollision w/ Ground !!");
       isGrounded = true;
+    }
+    if (collision.gameObject.CompareTag("Obstacle"))
+    {
+      Debug.Log("Collision with Obstacle");
+      Destroy(gameObject);
+    }
   }
 }
