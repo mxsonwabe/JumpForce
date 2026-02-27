@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
     {
       Debug.Log("Collision with Obstacle");
       Destroy(gameObject);
+      Time.timeScale = 0f;
     }
   }
 }

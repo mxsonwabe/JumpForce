@@ -10,7 +10,7 @@ public class SpawnManager : MonoBehaviour
   {
     startDelay = 2.0f;
     spawnFreq = 1.5f;
-    spawnPosition = new Vector3(25 + 25, 0, 0);
+    spawnPosition = new Vector3(30, 0, 0);
     InvokeRepeating(nameof(SpawnObstacle), startDelay, spawnFreq);
   }
 
