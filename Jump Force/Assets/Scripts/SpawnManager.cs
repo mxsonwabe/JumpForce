@@ -2,15 +2,17 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-  [SerializeField] GameObject obstaclePrefab;
   private Vector3 spawnPosition;
   private float startDelay, spawnFreq;
+  PlayerController playerController;
+  [SerializeField] GameObject obstaclePrefab;
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
-    startDelay = 2.0f;
+    startDelay = 2.5f;
     spawnFreq = 1.5f;
     spawnPosition = new Vector3(30, 0, 0);
+    playerController = GameObject.Find("Player").GetComponent<PlayerController>();
     InvokeRepeating(nameof(SpawnObstacle), startDelay, spawnFreq);
   }
 
@@ -21,6 +23,7 @@ public class SpawnManager : MonoBehaviour
 
   void SpawnObstacle()
   {
-    Instantiate(obstaclePrefab, spawnPosition, obstaclePrefab.transform.rotation);
+    if (!playerController.gameOver)
+      Instantiate(obstaclePrefab, spawnPosition, obstaclePrefab.transform.rotation);
   }
 }
