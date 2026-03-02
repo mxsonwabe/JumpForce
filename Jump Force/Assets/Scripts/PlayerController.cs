@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
   [SerializeField] private ParticleSystem dirtParticle;
   [SerializeField] private AudioClip jumpClip;
   [SerializeField] private AudioClip deathClip;
+  [SerializeField] private GameObject mainCamObj;
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
@@ -22,9 +23,10 @@ public class PlayerController : MonoBehaviour
     playerRb = GetComponent<Rigidbody>();
     playerAnim = GetComponent<Animator>();
     audioSource = GetComponent<AudioSource>();
-    if (!audioSource)
+    mainCamObj = GameObject.FindGameObjectWithTag("MainCamera");
+    if (!audioSource || !mainCamObj)
     {
-      Debug.LogError("Audio Source System Error.", this);
+      Debug.LogError("Audio Source System || Main Camera Error.", this);
       enabled = false;
       return;
     }
@@ -79,6 +81,7 @@ public class PlayerController : MonoBehaviour
       gameOver = true;
       explosionParticle.Play();
       audioSource.PlayOneShot(deathClip, 1.0f);
+      mainCamObj.GetComponent<AudioSource>().Stop();
       //Time.timeScale = 0f;
     }
   }
