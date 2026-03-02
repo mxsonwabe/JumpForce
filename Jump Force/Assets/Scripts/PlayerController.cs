@@ -8,24 +8,26 @@ public class PlayerController : MonoBehaviour
   private Rigidbody playerRb;
   private Animator playerAnim;
   private InputAction jumpAction;
+  private AudioSource audioSource;
   [SerializeField] private float inputForce;
   [SerializeField] private float gravityMod;
-  //public ParticleSystem particleSystem;
   [SerializeField] private ParticleSystem explosionParticle;
   [SerializeField] private ParticleSystem dirtParticle;
+  [SerializeField] private AudioClip jumpClip;
+  [SerializeField] private AudioClip deathClip;
   // Start is called once before the first execution of Update after the MonoBehaviour is created
   void Start()
   {
     gameOver = false;
     playerRb = GetComponent<Rigidbody>();
     playerAnim = GetComponent<Animator>();
-    //particleSystem = GetComponent<ParticleSystem>();
-    //if (!particleSystem)
-    //{
-    //  Debug.LogError("Particle System Error.", this);
-    //  enabled = false;
-    //  return;
-    //}
+    audioSource = GetComponent<AudioSource>();
+    if (!audioSource)
+    {
+      Debug.LogError("Audio Source System Error.", this);
+      enabled = false;
+      return;
+    }
     if (!playerAnim || !playerRb)
     {
       Debug.LogError("!playerAnim || !playerRb", this);
@@ -62,7 +64,10 @@ public class PlayerController : MonoBehaviour
       Debug.Log("OnCollision w/ Ground !!");
       isGrounded = true;
       if (!gameOver)
+      {
+        audioSource.PlayOneShot(jumpClip, 1.0f);
         dirtParticle.Play();
+      }
     }
     if (collision.gameObject.CompareTag("Obstacle"))
     {
@@ -73,6 +78,7 @@ public class PlayerController : MonoBehaviour
       playerAnim.SetInteger("DeathType_int", 1);
       gameOver = true;
       explosionParticle.Play();
+      audioSource.PlayOneShot(deathClip, 1.0f);
       //Time.timeScale = 0f;
     }
   }
